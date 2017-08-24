@@ -11,6 +11,8 @@
   "author": "Raphaël Titsworth-Morin",
   "license": "ISC",
   "dependencies": {
+    "prismic-dom": "^2.0.0",
+    "prismic-javascript": "^1.2.0",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1"

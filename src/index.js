@@ -4,8 +4,7 @@ import Main from "./components/main";
 
 import "./main.scss";
 
-
 ReactDOM.render(
-  <Main title={"Hello World"}/>,
+  <Main />,
   document.getElementById("app")
 );
