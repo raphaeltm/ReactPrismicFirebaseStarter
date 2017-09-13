@@ -1,0 +1,25 @@
+@import "~bulma/bulma";
+
+body, html {
+  height: 100%;
+  overflow: auto;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+h1 {
+  font-size: 30px;
+}
+
+#home {
+  header {
+    height: 35px;
+  }
+  aside header {
+    h2, h3, h4, h5, h6 {
+      font-size: 30px;
+    }
+  }
+  img {
+    padding: 20px;
+  }
+}
