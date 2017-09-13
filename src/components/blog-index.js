@@ -5,14 +5,8 @@ import {linkResolver} from "../prismic";
 
 class BlogIndex extends React.Component {
   render() {
-    const pages = Object.keys(this.props.content).map((key) => {
-      return this.props.content[key];
-    });
-    pages.sort((pageA, pageB) => {
-      return pageA.first_publication_date < pageB.first_publication_date ? 0 : 1;
-    });
     return <div>
-      {pages.map((content) => {
+      {this.props.content.map((content) => {
         const page = content.data;
         return <article key={content.id}>
           <header>

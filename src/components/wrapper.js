@@ -21,8 +21,8 @@ const getComponent = (type, index) => {
 };
 
 class Wrapper extends React.Component {
-  constructor(props) {
-    super(props);
+  componentWillMount(){
+    let props = this.props;
 
     const params = props.match.params;
 
@@ -64,7 +64,18 @@ class Wrapper extends React.Component {
       Component = getComponent(this.props.match.params.type);
     }
 
-    return <Component {...this.props}/>
+    if(!this.props.content.id){
+      const content = Object.keys(this.props.content).map((key) => {
+        return this.props.content[key];
+      });
+
+      const props = {...this.props, content: content};
+
+      return <Component {...props} />
+    }
+    else {
+      return <Component {...this.props} />
+    }
   }
 }
 
