@@ -16,7 +16,9 @@ class Main extends React.Component {
       );
       let page = response.results[0];
 
-      this.setState({ page: page.data })
+      if(page){
+        this.setState({ page: page.data })
+      }
     });
   }
 

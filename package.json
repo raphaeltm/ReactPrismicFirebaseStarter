@@ -1,5 +1,5 @@
 {
-  "name": "React Webpack Sass Starter",
+  "name": "ReactWebpackSassStarter",
   "version": "1.0.0",
   "description": "Just a really simple starter to work off of for future react projects.",
   "scripts": {
@@ -11,6 +11,7 @@
   "author": "Raphaël Titsworth-Morin",
   "license": "ISC",
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "prismic-dom": "^2.0.0",
     "prismic-javascript": "^1.2.0",
     "prop-types": "^15.5.10",
