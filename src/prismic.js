@@ -10,5 +10,5 @@ export let linkResolver = (doc) => {
   if(doc.type === "homepage"){
     return '/';
   }
-  return `/${doc.type}/` + doc.uid || doc.id;
+  return `/${doc.type}/` + doc.uid;
 };

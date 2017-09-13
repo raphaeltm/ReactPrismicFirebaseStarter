@@ -10,7 +10,9 @@ module.exports = {
     filename: "index.js"
   },
   devServer: {
-    contentBase: "./public"
+    contentBase: "./public",
+    port: 8080,
+    historyApiFallback: true
   },
   plugins: debug ? [] : [
     new webpack.optimize.DedupePlugin(),
@@ -28,7 +30,8 @@ module.exports = {
             presets: [
               'env',
               'react'
-            ]
+            ],
+            plugins: [require('babel-plugin-transform-object-rest-spread')]
           }
         }
       },
