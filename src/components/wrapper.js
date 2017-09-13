@@ -1,8 +1,9 @@
 import React from "react";
 import Prismic from "prismic-javascript";
 import {connect} from "react-redux";
-import {contentLoaded} from "../actions/content";
+import {contentFetching, contentLoaded} from "../actions/content";
 import {getApi} from "../prismic";
+import _404 from "./404";
 
 const getComponent = (type, index) => {
   if(index){
@@ -25,6 +26,8 @@ class Wrapper extends React.Component {
 
     const params = props.match.params;
 
+    props.dispatch(contentFetching());
+
     getApi().then(async (api) => {
       let page;
 
@@ -44,8 +47,12 @@ class Wrapper extends React.Component {
   }
 
   render() {
+    if(this.props.fetching === true){
+      return <h2>Loading...</h2>;
+    }
+
     if(!this.props.content){
-      return null;
+      return <_404/>
     }
 
     let Component;
@@ -65,12 +72,14 @@ const mapStateToProps = (state, props) => {
   const params = props.match.params;
   if (params.uid) {
     return {
-      content: (state.content[params.type] || {})[params.uid]
+      content: (state.content[params.type] || {})[params.uid],
+      fetching: state.content._fetching,
     }
   }
   else {
     return {
-      content: state.content[params.type]
+      content: state.content[params.type],
+      fetching: state.content._fetching,
     };
   }
 };
