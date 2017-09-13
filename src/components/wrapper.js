@@ -1,11 +1,16 @@
 import React from "react";
-import Homepage from "./homepage";
 import Prismic from "prismic-javascript";
 import {connect} from "react-redux";
 import {contentLoaded} from "../actions/content";
 import {getApi} from "../prismic";
 
-const getComponent = (type) => {
+const getComponent = (type, index) => {
+  if(index){
+    try {
+      return require(`./${type}-index`).default;
+    }
+    catch (e) {}
+  }
   try {
     return require(`./${type}`).default;
   }
@@ -39,7 +44,19 @@ class Wrapper extends React.Component {
   }
 
   render() {
-    let Component = getComponent(this.props.match.params.type);
+    if(!this.props.content){
+      return null;
+    }
+
+    let Component;
+
+    if(!this.props.match.params.uid){
+      Component = getComponent(this.props.match.params.type, true);
+    }
+    else {
+      Component = getComponent(this.props.match.params.type);
+    }
+
     return <Component {...this.props}/>
   }
 }
