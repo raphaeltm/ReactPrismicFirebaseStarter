@@ -1,7 +1,6 @@
 import "babel-polyfill";
 import React from "react";
 import ReactDOM from "react-dom";
-import Homepage from "./components/homepage";
 import Wrapper from "./components/wrapper";
 import {Provider} from "react-redux";
 import {store, history} from "./store";
