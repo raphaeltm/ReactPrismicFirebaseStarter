@@ -25,15 +25,16 @@ class Wrapper extends React.Component {
 
       if(params.uid){
         page = await api.getByUID(params.type, params.uid);
+        props.dispatch(contentLoaded(page, params.type, params.uid));
       }
       else {
         let response = await api.query(
           Prismic.Predicates.at('document.type', params.type)
         );
-        page = response.results[0];
+        response.results.map((page) => {
+          props.dispatch(contentLoaded(page, page.type, page.uid));
+        });
       }
-
-      props.dispatch(contentLoaded(page, params.type, params.uid));
     });
   }
 
