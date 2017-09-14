@@ -1,11 +1,11 @@
 import React from "react";
 import {RichText} from "prismic-reactjs";
+import Layout from "./_layout";
 
 class Homepage extends React.Component {
   render() {
     let page = this.props.content.data;
-    return <div className="section" id="home">
-      <div className="container">
+    return <Layout className="section" id="home">
         <div className="columns">
           <article className="column is-two-thirds">
             <header>
@@ -28,8 +28,7 @@ class Homepage extends React.Component {
         <footer className="has-text-centered">
           {page.footer && RichText.render(page.footer)}
         </footer>
-      </div>
-    </div>;
+    </Layout>;
   }
 }
 

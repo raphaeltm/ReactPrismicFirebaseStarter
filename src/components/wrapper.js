@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {contentFetching, contentLoaded} from "../actions/content";
 import {getApi} from "../prismic";
 import _404 from "./404";
+import Layout from "./_layout";
 
 const getComponent = (type, index) => {
   if(index){
@@ -37,8 +38,12 @@ class Wrapper extends React.Component {
       }
       else {
         let response = await api.query(
-          Prismic.Predicates.at('document.type', params.type)
+          Prismic.Predicates.at('document.type', params.type),
+          {pageSize: 100}
         );
+        if(response.results.length === 0){
+          props.dispatch(contentLoaded(null, params.type, null));
+        }
         response.results.map((page) => {
           props.dispatch(contentLoaded(page, page.type, page.uid));
         });
@@ -48,11 +53,11 @@ class Wrapper extends React.Component {
 
   render() {
     if(this.props.fetching === true){
-      return <h2>Loading...</h2>;
+      return <Layout className="has-text-centered"><h2>Loading...</h2></Layout>;
     }
 
     if(!this.props.content){
-      return <_404/>
+      return <Layout className="has-text-centered"><h1>Content Not Found</h1></Layout>;
     }
 
     let Component;
