@@ -1,11 +1,20 @@
-# Prismic / React Starter
+# Prismic / React Starter + Firebase Deployment
 
 This starter will help you get setup with Prismic and React. 
 
 Webpack is setup so you can use a bunch of es2015 stuff, and it supports Sass, to make styling faster. It's built on redux and includes react-router.
 
+This project is also setup to make it easy to deploy to Firebase, including a single Firebase Cloud Function that will generate a sitemap.xml file for you.
+
+*NOTE:* For the cloud function to work properly, you will need to be on a paid plan with Firebase, because only Google services are reachable from a function on the free plan (i.e. you can't make calls to Prismic without a paid Firebase plan). That being said, if you use he Blaze plan, you get 2 million function calls for free every month.
+
 ### Installation
-Clone this repo and run `npm install`.
+
+Clone this repo and run:
+
+`npm install && cd functions && npm install && cd ..`
+
+That will install dependencies in the root project and the functions (which are useful if you want to deploy to firebase and have a sitemap.xml available)
 
 ### Routing
 
@@ -48,6 +57,7 @@ Run `npm run start` to get the dev server up and running.
 I just added Firebase support. So you can go in and replace the firebase "default" project ID (currently raphaeltm-b740e) with your own firebase project id.
 
 Make sure to have the Firebase tools installed globally using:
+
 `npm install -g firebase-tools`
 
 Then run `npm run deploy` to deploy your app.

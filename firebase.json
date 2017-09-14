@@ -3,6 +3,10 @@
     "public": "public",
     "rewrites": [
       {
+        "source": "/sitemap.xml",
+        "function": "siteMap"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
