@@ -3,18 +3,22 @@ import {RichText} from "prismic-reactjs";
 
 class Blog extends React.Component {
   render() {
-    if (!this.props.content) {
-      return null;
-    }
     const page = this.props.content.data;
-    return <article>
-      <header>
-        {page.title && RichText.render(page.title)}
-      </header>
-      <div>
-        {page.content && RichText.render(page.content)}
+    return <div className="section" id="home">
+      <div className="container">
+        <div className="columns">
+          <article className="column is-half">
+            <header>
+              {page.title && RichText.render(page.title)}
+            </header>
+            <hr/>
+            <div>
+              {page.content && RichText.render(page.content)}
+            </div>
+          </article>
+        </div>
       </div>
-    </article>;
+    </div>;
   }
 }
 

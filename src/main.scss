@@ -1,3 +1,7 @@
+//$desktop: ;
+$widescreen: 960px;
+$fullhd: $widescreen;
+
 @import "~bulma/bulma";
 
 body, html {
@@ -7,16 +11,40 @@ body, html {
 }
 
 h1 {
+  font-size: 35px;
+}
+
+h2 {
   font-size: 30px;
+}
+
+h3 {
+  font-size: 25px;
+}
+
+h4 {
+  font-size: 22px;
+}
+
+h5 {
+  font-size: 19px;
+}
+
+h6 {
+  font-size: 16px;
+}
+
+p {
+  margin-bottom: 20px;
 }
 
 #home {
   header {
-    height: 35px;
+    min-height: 45px;
   }
   aside header {
-    h2, h3, h4, h5, h6 {
-      font-size: 30px;
+    h2 {
+      font-size: 35px;
     }
   }
   img {

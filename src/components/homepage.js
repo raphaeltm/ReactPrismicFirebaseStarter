@@ -7,7 +7,7 @@ class Homepage extends React.Component {
     return <div className="section" id="home">
       <div className="container">
         <div className="columns">
-          <article className="column">
+          <article className="column is-two-thirds">
             <header>
               {page.title && RichText.render(page.title)}
             </header>
