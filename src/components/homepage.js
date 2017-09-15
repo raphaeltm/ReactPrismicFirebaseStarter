@@ -24,10 +24,6 @@ class Homepage extends React.Component {
             {page.aside_content && RichText.render(page.aside_content)}
           </aside>
         </div>
-        <hr/>
-        <footer className="has-text-centered">
-          {page.footer && RichText.render(page.footer)}
-        </footer>
     </Layout>;
   }
 }

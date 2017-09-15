@@ -32,6 +32,6 @@ export const reducer = (state = defaultState, action) => {
       };
       break;
     default:
-      return defaultState;
+      return state;
   }
 };
