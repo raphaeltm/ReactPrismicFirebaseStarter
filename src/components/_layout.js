@@ -8,7 +8,7 @@ class Layout extends React.Component {
     const settings = this.props.settings.data || {};
     return <div>
       <Nav />
-      <div className={`section ${this.props.className}`}>
+      <div className={`section ${this.props.className}`} id={this.props.id}>
         <div className="container">
           {this.props.children}
 
