@@ -8,13 +8,13 @@ class BlogIndex extends React.Component {
   render() {
     return <Layout>
       <div className="columns">
-        <div className="column is-half is-offset-one-quarter">
+        <div className="column is-two-thirds is-offset-2">
           <h1 className="has-text-centered">Blog</h1>
           <hr/>
         </div>
       </div>
       <div className="columns">
-        <div className="column is-half is-offset-one-quarter">
+        <div className="column is-two-thirds is-offset-2">
           {this.props.content.map((content) => {
             const page = content.data;
             return <article key={content.id}>

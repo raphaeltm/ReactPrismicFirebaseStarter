@@ -57,7 +57,7 @@ class Wrapper extends React.Component {
     }
 
     if(!this.props.content){
-      return <Layout className="has-text-centered"><h1>Content Not Found</h1></Layout>;
+      return <_404 />;
     }
 
     let Component;

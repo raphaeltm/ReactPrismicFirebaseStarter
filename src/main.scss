@@ -119,6 +119,11 @@ header.has-featured-image {
   text-align: center;
 }
 
+#page-footer {
+  border-top: 3px solid #dddddd;
+  margin-top: 50px;
+}
+
 @include mobile(){
   #navbar {
     border: none;
