@@ -14,7 +14,11 @@ Clone this repo and run:
 
 `npm install && cd functions && npm install && cd ..`
 
-That will install dependencies in the root project and the functions (which are useful if you want to deploy to firebase and have a sitemap.xml available)
+That will install dependencies in the root project and the functions (which are useful if you want to deploy to Firebase and have a sitemap.xml available)
+
+To setup the Prismic types that I setup for this starter, you can take a look [here](./prismic_types). Each JSON file corresponds to a different type, where the API ID for the type is the same as the filename, without the extension.
+
+This starter is setup to play nice with [Firebase](https://firebase.google.com/). If you want to take advantage of that, you'll want to check out the [.firebaserc](.firebaserc) file and change the default Firebase project to the ID of your Firebase project.
 
 ### Routing
 
