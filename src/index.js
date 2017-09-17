@@ -7,7 +7,7 @@ import {store, history} from "./store";
 import "./main.scss";
 import {ConnectedRouter} from "react-router-redux";
 import {Route} from "react-router";
-import {loadSettings} from "./prismic";
+import {loadSettings} from "../common/prismic";
 
 loadSettings(store);
 

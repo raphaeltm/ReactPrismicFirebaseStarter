@@ -4,8 +4,10 @@
   "description": "Just a really simple starter to work off of for future react projects.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --open",
+    "webpack-serve": "webpack-dev-server --open",
+    "start": "concurrently --kill-others \"npm run watch-functions\" \"npm run watch\" \"firebase serve --only hosting,functions\"",
     "watch": "webpack --progress --watch",
+    "watch-functions": "cd functions && npm run watch",
     "build": "set NODE_ENV=production&& webpack -p",
     "build-functions": "cd functions && npm run build && cd ..",
     "deploy": "npm run build && npm run build-functions && firebase deploy"
@@ -34,6 +36,7 @@
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
+    "concurrently": "^3.5.0",
     "css-loader": "^0.28.5",
     "node-sass": "^4.5.3",
     "sass-loader": "^6.0.6",

@@ -2,7 +2,7 @@ import React from "react";
 import Prismic from "prismic-javascript";
 import {connect} from "react-redux";
 import {contentFetching, contentLoaded} from "../actions/content";
-import {getApi} from "../prismic";
+import {getApi} from "../../common/prismic";
 import _404 from "./404";
 import Layout from "./_layout";
 
@@ -52,7 +52,7 @@ class Wrapper extends React.Component {
   }
 
   render() {
-    if(this.props.fetching === true){
+    if(this.props.fetching === true && !this.props.content){
       return <Layout className="has-text-centered"><h2>Loading...</h2></Layout>;
     }
 

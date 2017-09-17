@@ -1,7 +1,7 @@
 import React from "react";
 import {RichText} from "prismic-reactjs";
 import {Link} from "react-router-dom";
-import {linkResolver} from "../prismic";
+import {linkResolver} from "../../common/prismic";
 import Layout from "./_layout";
 
 class BlogIndex extends React.Component {

@@ -14,6 +14,10 @@ if (process.env.NODE_ENV !== 'production' && window.devToolsExtension) {
   middleware = compose(middleware, window.devToolsExtension());
 }
 
-const store = createStore(reducers, middleware);
+const preloadedState = window.__PRELOADED_STATE__;
+
+delete window.__PRELOADED_STATE__;
+
+const store = createStore(reducers, preloadedState || {}, middleware);
 
 export { store, history };

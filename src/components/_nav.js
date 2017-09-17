@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {RichText} from "prismic-reactjs";
 import {Link} from "react-router-dom";
-import {linkResolver} from "../prismic";
+import {linkResolver} from "../../common/prismic";
 
 class Nav extends React.Component {
   constructor(props){
@@ -18,7 +18,6 @@ class Nav extends React.Component {
       return null;
     }
     const settings = this.props.settings.data;
-    // console.log(settings);
 
     return <div>
       <div id="navtrigger" className="is-hidden-tablet" onClick={()=>{this.setState({visible: true})}}>
