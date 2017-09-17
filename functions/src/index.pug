@@ -4,6 +4,8 @@ html(lang='en')
         meta(charset='UTF-8')
         meta(name='keywords', content!=(data.keywords))
         meta(name='description', content!=(data.description))
+        meta(property="og:title"  content=(data.simpleTitle))
+        meta(property="og:image"  content=(data.featuredImage))
         meta(name='viewport', content='width=device-width, initial-scale=1')
 
         title!= data.title

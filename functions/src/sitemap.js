@@ -39,7 +39,7 @@ export const siteMap = functions.https.onRequest(async (req, res) => {
       return res.status(500).end();
     }
     res.header('Content-Type', 'application/xml');
-    res.set('Cache-Control', 'public, max-age=1800, s-maxage=3600');
+    res.set('Cache-Control', 'public, max-age=300, s-maxage=600');
     res.send(xml);
   });
 });

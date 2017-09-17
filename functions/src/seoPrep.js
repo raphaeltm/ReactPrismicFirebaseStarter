@@ -61,6 +61,7 @@ const handler = async (req, res) => {
   };
 
   res.set('Content-Type', 'text/html');
+  res.set('Cache-Control', 'public, max-age=300, s-maxage=600');
   res.send(renderIndex(context));
 };
 
