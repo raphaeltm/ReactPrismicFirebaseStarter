@@ -17,6 +17,7 @@ class BlogIndex extends React.Component {
         <div className="column is-two-thirds is-offset-2">
           {this.props.content.map((content) => {
             const page = content.data;
+            const textContent = page.content ? RichText.asText(page.content) : '';
             return <article key={content.id}>
               <header>
                 <Link to={linkResolver(content)}>
@@ -24,7 +25,7 @@ class BlogIndex extends React.Component {
                 </Link>
               </header>
               <div>
-                {page.content && `${RichText.asText(page.content).slice(0, 10)}...`}
+                <p>{textContent.length > 150 ? `${textContent.slice(0,140)}...` : textContent} <Link to={linkResolver(content)}>[read more]</Link> </p>
               </div>
             </article>
           })}

@@ -2,8 +2,12 @@ doctype html
 html(lang='en')
     head
         meta(charset='UTF-8')
-        title!= data.title
+        meta(name='keywords', content!=(data.keywords))
+        meta(name='description', content!=(data.description))
         meta(name='viewport', content='width=device-width, initial-scale=1')
+
+        title!= data.title
+
         link(rel='icon', type='image/x-icon', href='/favicons/favicon.ico')
         link(href='https://fonts.googleapis.com/css?family=Roboto+Condensed', rel='stylesheet')
         script.

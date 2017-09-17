@@ -2,7 +2,7 @@ import React from "react";
 import Prismic from "prismic-javascript";
 import {connect} from "react-redux";
 import {contentFetching, contentLoaded} from "../actions/content";
-import {getApi} from "../../common/prismic";
+import {getApi, getContent} from "../../common/prismic";
 import _404 from "./404";
 import Layout from "./_layout";
 
@@ -11,44 +11,36 @@ const getComponent = (type, index) => {
     try {
       return require(`./${type}-index`).default;
     }
-    catch (e) {}
+    catch (e) {
+      return _404;
+    }
   }
   try {
     return require(`./${type}`).default;
   }
   catch (e) {
-    return require('./404').default;
+    return _404;
   }
 };
 
 class Wrapper extends React.Component {
-  componentWillMount(){
+  async componentWillMount(){
     let props = this.props;
 
     const params = props.match.params;
 
     props.dispatch(contentFetching());
 
-    getApi().then(async (api) => {
-      let page;
+    const content = await getContent(params.type, params.uid);
 
-      if(params.uid){
-        page = await api.getByUID(params.type, params.uid);
-        props.dispatch(contentLoaded(page, params.type, params.uid));
-      }
-      else {
-        let response = await api.query(
-          Prismic.Predicates.at('document.type', params.type),
-          {pageSize: 100}
-        );
-        if(response.results.length === 0){
-          props.dispatch(contentLoaded(null, params.type, null));
-        }
-        response.results.map((page) => {
-          props.dispatch(contentLoaded(page, page.type, page.uid));
-        });
-      }
-    });
+    if(typeof content.length !== 'undefined'){
+      content.map((page) => {
+        props.dispatch(contentLoaded(page, page.type, page.uid));
+      });
+    }
+    else {
+      props.dispatch(contentLoaded(content, content.type, content.uid));
+    }
   }
 
   render() {
@@ -60,10 +52,12 @@ class Wrapper extends React.Component {
       return <_404 />;
     }
 
+    let index = !this.props.match.params.uid && !this.props.content.id;
+
     let Component;
 
     if(!this.props.match.params.uid){
-      Component = getComponent(this.props.match.params.type, true);
+      Component = getComponent(this.props.match.params.type, index);
     }
     else {
       Component = getComponent(this.props.match.params.type);

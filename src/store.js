@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== 'production' && window.devToolsExtension) {
 
 const preloadedState = window.__PRELOADED_STATE__;
 
-delete window.__PRELOADED_STATE__;
+// delete window.__PRELOADED_STATE__;
 
 const store = createStore(reducers, preloadedState || {}, middleware);
 

@@ -1,5 +1,6 @@
 import Prismic from "prismic-javascript";
 import {contentLoaded} from "../src/actions/content";
+import {titleCase} from "./utils";
 
 export const CONTENT_FORMATS = {
   LIST: 'LIST',
@@ -60,10 +61,10 @@ export const getContent = async (type, uid) => {
 };
 
 export const getFormat = (content) => {
-  if(typeof content.length !== 'undefined'){
+  if (typeof content.length !== 'undefined') {
     return CONTENT_FORMATS.LIST;
   }
-  else if(content.uid){
+  else if (content.uid) {
     return CONTENT_FORMATS.REPEATABLE;
   }
   else {

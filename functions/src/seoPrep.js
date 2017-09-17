@@ -28,10 +28,10 @@ const buildState = (settings, content, type) => {
     });
   }
   else if(getFormat(content) === CONTENT_FORMATS.SINGLE){
-    state.content[type] = content;
+    state.content[content.type] = content;
   }
   else {
-    state.content[type] = {
+    state.content[content.type] = {
       [content.uid]: content
     }
   }
