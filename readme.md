@@ -1,4 +1,6 @@
-# Prismic / React Starter + Firebase Deployment
+# Prismic / React / Firebase Starter
+
+## Includes sitemaps, some open graph stuff, Prismic Custom Types, and a flexible templating system.
 
 This starter will help you get setup with Prismic and React. 
 
