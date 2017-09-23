@@ -1,13 +1,17 @@
 import React from "react";
 import Prismic from "prismic-javascript";
 import {connect} from "react-redux";
-import {contentFetching, contentLoaded} from "../actions/content";
-import {getApi, getContent} from "../../common/prismic";
+import {contentFetching, contentLoaded, contentSetPage, contentTypeSetPage} from "../actions/content";
+import {CONTENT_FORMATS, getApi, getContent} from "../../common/prismic";
 import _404 from "./404";
 import Layout from "./_layout";
+import {
+  getFormattedContent, getOrderedContent, getTypeByUID, getTypeContent, getTypeFormat,
+  getTypePage
+} from "../selectors/content";
 
 const getComponent = (type, index) => {
-  if(index){
+  if (index) {
     try {
       return require(`./${type}-index`).default;
     }
@@ -24,7 +28,7 @@ const getComponent = (type, index) => {
 };
 
 class Wrapper extends React.Component {
-  async componentWillMount(){
+  async componentWillMount() {
     let props = this.props;
 
     const params = props.match.params;
@@ -33,7 +37,8 @@ class Wrapper extends React.Component {
 
     const content = await getContent(params.type, params.uid);
 
-    if(typeof content.length !== 'undefined'){
+    if (typeof content.length !== 'undefined') {
+      props.dispatch(contentTypeSetPage(params.type, this.props.page || 1));
       content.map((page) => {
         props.dispatch(contentLoaded(page, page.type, page.uid));
       });
@@ -44,11 +49,11 @@ class Wrapper extends React.Component {
   }
 
   render() {
-    if(this.props.fetching === true && !this.props.content){
+    if (this.props.fetching === true && !this.props.content) {
       return <Layout className="has-text-centered"><h2>Loading...</h2></Layout>;
     }
 
-    if(!this.props.content){
+    if (!this.props.content) {
       return <_404 />;
     }
 
@@ -56,42 +61,29 @@ class Wrapper extends React.Component {
 
     let Component;
 
-    if(!this.props.match.params.uid){
+    if (!this.props.match.params.uid) {
       Component = getComponent(this.props.match.params.type, index);
     }
     else {
       Component = getComponent(this.props.match.params.type);
     }
 
-    if(!this.props.content.id){
-      const content = Object.keys(this.props.content).map((key) => {
-        return this.props.content[key];
-      });
-
-      const props = {...this.props, content: content};
-
-      return <Component {...props} />
-    }
-    else {
-      return <Component {...this.props} />
-    }
+    return <Component {...this.props} />
   }
 }
 
 const mapStateToProps = (state, props) => {
-  const params = props.match.params;
-  if (params.uid) {
-    return {
-      content: (state.content[params.type] || {})[params.uid],
-      fetching: state.content._fetching,
-    }
-  }
-  else {
-    return {
-      content: state.content[params.type],
-      fetching: state.content._fetching,
-    };
-  }
+  const {type, uid} = props.match.params;
+  const format = getTypeFormat(state, type);
+
+  return {
+    content: getFormattedContent(state, type, uid),
+    fetching: state.content.fetching,
+    type: type,
+    uid: uid,
+    page: getTypePage(state, type),
+    format: format,
+  };
 };
 
 export default connect(mapStateToProps)(Wrapper);

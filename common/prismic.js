@@ -26,7 +26,7 @@ export const loadSettings = async (store) => {
   store.dispatch(contentLoaded(settings, 'settings'));
 };
 
-export const getContent = async (type, uid) => {
+export const getContent = async (type, uid, page) => {
   const api = await getApi();
 
   if (!type && !uid) {
@@ -43,9 +43,15 @@ export const getContent = async (type, uid) => {
     }
   }
   else {
+    let options = {
+      pageSize: PRISMIC_SETTINGS.NUM_PER_PAGE
+    };
+    if(page){
+      options.page = page;
+    }
     let response = await api.query(
       Prismic.Predicates.at('document.type', type),
-      {pageSize: 100}
+      options
     );
 
     if (response.results.length === 0) {
@@ -75,4 +81,8 @@ export const getFormat = (content) => {
 export const getTypeTitle = (type) => {
   const typeSpaces = type.replace('-', ' ');
   return titleCase(typeSpaces);
+};
+
+export const PRISMIC_SETTINGS = {
+  NUM_PER_PAGE: 1
 };

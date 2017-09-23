@@ -17,14 +17,16 @@ app.use(bodyParser.json());
 const buildState = (settings, content, type) => {
   let state = {
     content: {
-      settings: settings
+      settings: {
+        content: settings
+      }
     }
   };
 
   if(getFormat(content) === CONTENT_FORMATS.LIST){
-    state.content[type] = {};
+    state.content[type] = {content: {}};
     content.map((page) => {
-      state.content[type][page.uid] = page;
+      state.content[type].content[page.uid] = page;
     });
   }
   else if(getFormat(content) === CONTENT_FORMATS.SINGLE){

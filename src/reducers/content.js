@@ -1,35 +1,56 @@
 import * as contentActions from "../actions/content";
 
 const defaultState = {
-  _fetching: false,
+  fetching: false,
 };
 
 export const reducer = (state = defaultState, action) => {
   switch (action.type) {
-    case contentActions.CONTENT_LOADED:
+    case contentActions.CONTENT_LOADED: {
       const {content, type, uid} = action.payload;
       if (!uid) {
         return {
           ...state,
-          [type]: content,
-          _fetching: false,
+          [type]: {
+            content: content
+          },
+          fetching: false,
         }
       }
       else {
         const typeState = {...(state[type] || {})};
-        const newTypeState = {...typeState, [uid]: content};
+        const newTypeState = {
+          ...typeState,
+          content: {
+            ...typeState.content || {},
+            [uid]: content
+          }
+        };
         return {
           ...state,
           [type]: newTypeState,
-          _fetching: false,
+          fetching: false,
         };
       }
+    }
       break;
-    case contentActions.CONTENT_FETCHING:
+    case contentActions.CONTENT_SET_PAGE: {
+      const {type} = action.payload;
       return {
         ...state,
-        _fetching: true,
+        [type]: {
+          ...state[type],
+          page: action.payload.page,
+        }
       };
+    }
+      break;
+    case contentActions.CONTENT_FETCHING: {
+      return {
+        ...state,
+        fetching: true,
+      };
+    }
       break;
     default:
       return state;

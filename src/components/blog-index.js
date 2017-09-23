@@ -3,9 +3,13 @@ import {RichText} from "prismic-reactjs";
 import {Link} from "react-router-dom";
 import {linkResolver} from "../../common/prismic";
 import Layout from "./_layout";
+import {loadMoreContent} from "../actions/content";
 
 class BlogIndex extends React.Component {
   render() {
+    if (!this.props.content) {
+      return null;
+    }
     return <Layout>
       <div className="columns">
         <div className="column is-two-thirds is-offset-2">
@@ -16,6 +20,9 @@ class BlogIndex extends React.Component {
       <div className="columns">
         <div className="column is-two-thirds is-offset-2">
           {this.props.content.map((content) => {
+            if (!content.id) {
+              return null;
+            }
             const page = content.data;
             const textContent = page.content ? RichText.asText(page.content) : '';
             return <article key={content.id}>
@@ -25,10 +32,17 @@ class BlogIndex extends React.Component {
                 </Link>
               </header>
               <div>
-                <p>{textContent.length > 150 ? `${textContent.slice(0,140)}...` : textContent} <Link to={linkResolver(content)}>[read more]</Link> </p>
+                <p>{textContent.length > 150 ? `${textContent.slice(0, 140)}...` : textContent} <Link
+                  to={linkResolver(content)}>[read more]</Link></p>
               </div>
             </article>
           })}
+          <hr/>
+          <button className="button"
+                  onClick={() => {
+                    this.props.dispatch(loadMoreContent(this.props.type))
+                  }}>Load More
+          </button>
         </div>
       </div>
     </Layout>;

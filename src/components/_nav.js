@@ -47,7 +47,7 @@ class Nav extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    settings: state.content.settings
+    settings: state.content.settings.content
   };
 };
 
