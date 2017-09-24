@@ -2,6 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {RichText} from "prismic-reactjs";
 import Nav from "./_nav";
+import {getTypeContent} from "../selectors/content";
 
 class Layout extends React.Component {
   render() {
@@ -28,7 +29,7 @@ class Layout extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    settings: state.content.settings || {}
+    settings: getTypeContent(state, 'settings') || {},
   };
 };
 

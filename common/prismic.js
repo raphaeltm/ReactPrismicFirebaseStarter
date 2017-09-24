@@ -74,9 +74,7 @@ export const getContent = async (type, uid, page) => {
     }
   }
   else {
-    let options = {
-      pageSize: PRISMIC_SETTINGS.NUM_PER_PAGE
-    };
+    let options = getTypeOptions(type);
     if(page){
       options.page = page;
     }
@@ -125,8 +123,45 @@ export const getTypeTitle = (type) => {
 
 /**
  * Configure prismic settings here.
- * @type {{NUM_PER_PAGE: number}}
  */
 export const PRISMIC_SETTINGS = {
-  NUM_PER_PAGE: 1
+  GLOBAL: {
+    pageSize: 25,
+    orderings: [
+      {
+        on: 'document',
+        field: 'first_publication_date',
+        order: 'desc'
+      }
+    ],
+    lang: null,
+  },
+  TYPES: {
+    blog: {
+      pageSize: 2,
+    }
+  },
+};
+
+const generateOrderingText = (obj, last=false) => {
+  return `${obj.on}.${obj.field} ${obj.order}${last ? '' : ','}`;
+};
+
+export const getTypeOptions = (type, raw=false) => {
+  let settings = {
+    ...PRISMIC_SETTINGS.GLOBAL,
+    ...(PRISMIC_SETTINGS.TYPES[type] || {})
+  };
+  if(raw){
+    return settings;
+  }
+  const final = {
+    pageSize: settings.pageSize,
+    orderings: `[${settings.orderings.map((ordering, index)=>{
+      return generateOrderingText(ordering, index+1 === settings.orderings.length);
+    })}]`,
+    lang: settings.lang,
+  };
+  console.log(final);
+  return final;
 };

@@ -1,11 +1,11 @@
-import {isEmptyObject} from "../../common/utils";
-import {CONTENT_FORMATS} from "../../common/prismic";
-
 /**
  * Get the root for a type.
  * @param state
  * @param type
  */
+import {isEmptyObject} from "../../common/utils";
+import {CONTENT_FORMATS, getTypeOptions} from "../../common/prismic";
+
 export const getTypeRoot = (state, type) => {
   const content = state.content;
   return content[type];
@@ -38,12 +38,12 @@ export const getFormattedContent = (state, type, uid) => {
     return null;
   }
   if (uid) {
-    return getTypeByUID()
+    return getTypeByUID(state, type, uid);
   }
   else {
     return (getTypeFormat(state, type) === CONTENT_FORMATS.REPEATABLE) ?
       getOrderedContent(state, type) :
-      getTypeContent(state, type)
+      getTypeContent(state, type);
   }
 };
 
@@ -98,12 +98,12 @@ export const getOrderedContent = (state, type, filter, order) => {
     };
   }
   if (!order) {
-    order = 'DESC';
+    order = 'desc';
   }
   const content = getTypeContent(state, type);
   const contentArray = Object.keys(content).map((page) => content[page]);
   return contentArray.sort((pageA, pageB) => {
-    if (order === 'ASC') {
+    if (order === 'asc') {
       return filter(pageA) > filter(pageB);
     }
     else {
@@ -113,7 +113,10 @@ export const getOrderedContent = (state, type, filter, order) => {
 };
 
 export const getContentOrderedForType = (state, type) => {
-
+  const opts = getTypeOptions(type, true);
+  const filter = (page) => {
+    // let dataQuery =
+  };
 };
 
 /**
