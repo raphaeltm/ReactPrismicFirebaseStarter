@@ -2,18 +2,35 @@ import Prismic from "prismic-javascript";
 import {contentLoaded} from "../src/actions/content";
 import {titleCase} from "./utils";
 
+/**
+ * The formats of the content that can be returned from a getContent call.
+ * @type {{LIST: string, SINGLE: string, REPEATABLE: string}}
+ */
 export const CONTENT_FORMATS = {
   LIST: 'LIST',
   SINGLE: 'SINGLE',
   REPEATABLE: 'REPEATABLE',
 };
 
+/**
+ * Endpoint for your Prismic project.
+ * @type {string}
+ */
 export const apiEndpoint = "https://raphaeltm.prismic.io/api/v2";
 
+/**
+ * Get the Prismic API.
+ * @returns {Promise.<*>}
+ */
 export const getApi = async () => {
   return await Prismic.getApi(apiEndpoint);
 };
 
+/**
+ * Link resolver takes a page and returns the appropriate url.
+ * @param doc
+ * @returns {*}
+ */
 export const linkResolver = (doc) => {
   if (doc.type === "homepage") {
     return '/';
@@ -21,11 +38,25 @@ export const linkResolver = (doc) => {
   return `/${doc.type}/` + (doc.uid || '');
 };
 
+/**
+ * Load the settings page into store.
+ * @param store
+ * @returns {Promise.<void>}
+ */
 export const loadSettings = async (store) => {
   let settings = await getContent('settings');
-  store.dispatch(contentLoaded(settings, 'settings'));
+  store.dispatch(contentLoaded(settings, 'settings', null));
 };
 
+/**
+ * Get content from Prismic given a type, a uid (or not), and a page (or not).
+ * If a UID is provided, or the type is Single, this will return the identified page.
+ * If the type is repeatable and there is no UID, an array will be returned.
+ * @param type
+ * @param uid
+ * @param page
+ * @returns {Promise.<*>}
+ */
 export const getContent = async (type, uid, page) => {
   const api = await getApi();
 
@@ -66,6 +97,11 @@ export const getContent = async (type, uid, page) => {
   }
 };
 
+/**
+ * Returns the format of the content returned from a getContent call.
+ * @param content
+ * @returns {*}
+ */
 export const getFormat = (content) => {
   if (typeof content.length !== 'undefined') {
     return CONTENT_FORMATS.LIST;
@@ -78,11 +114,19 @@ export const getFormat = (content) => {
   }
 };
 
+/**
+ * Returns the type's API ID, titlecased and with hyphens replaced with spaces.
+ * @param type
+ */
 export const getTypeTitle = (type) => {
   const typeSpaces = type.replace('-', ' ');
   return titleCase(typeSpaces);
 };
 
+/**
+ * Configure prismic settings here.
+ * @type {{NUM_PER_PAGE: number}}
+ */
 export const PRISMIC_SETTINGS = {
   NUM_PER_PAGE: 1
 };
