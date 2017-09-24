@@ -87,13 +87,13 @@ export const getTypePage = (state, type) => {
  * For repeatable types, get content in order.
  * @param state
  * @param type
- * @param predicate
+ * @param filter
  * @param order
  * @returns {Array.<*>}
  */
-export const getOrderedContent = (state, type, predicate, order) => {
-  if (!predicate) {
-    predicate = (page) => {
+export const getOrderedContent = (state, type, filter, order) => {
+  if (!filter) {
+    filter = (page) => {
       return page.first_publication_date;
     };
   }
@@ -104,12 +104,16 @@ export const getOrderedContent = (state, type, predicate, order) => {
   const contentArray = Object.keys(content).map((page) => content[page]);
   return contentArray.sort((pageA, pageB) => {
     if (order === 'ASC') {
-      return predicate(pageA) > predicate(pageB);
+      return filter(pageA) > filter(pageB);
     }
     else {
-      return predicate(pageA) < predicate(pageB);
+      return filter(pageA) < filter(pageB);
     }
   });
+};
+
+export const getContentOrderedForType = (state, type) => {
+
 };
 
 /**

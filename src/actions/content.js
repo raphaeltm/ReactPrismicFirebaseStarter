@@ -60,7 +60,7 @@ export const loadMoreContent = (type) => {
     const number = getTypePage(getState(), type) || 1;
     dispatch(contentFetching());
     let content = await getContent(type, null, number+1);
-    if(!content.length || content.length === 0) {
+    if(!content || !content.length) {
       return;
     }
     dispatch(contentTypeSetPage(type, number+1));
