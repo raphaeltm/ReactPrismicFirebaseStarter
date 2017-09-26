@@ -14,6 +14,13 @@ app.use(cors);
 app.use(cookieParser());
 app.use(bodyParser.json());
 
+/**
+ * Setup the state to seed Redux.
+ * @param settings
+ * @param content
+ * @param type
+ * @returns {{content: {settings: {content: *}}}}
+ */
 const buildState = (settings, content, type) => {
   let state = {
     content: {
@@ -41,6 +48,12 @@ const buildState = (settings, content, type) => {
   return state;
 };
 
+/**
+ * Handle page requests.
+ * @param req
+ * @param res
+ * @returns {Promise.<void>}
+ */
 const handler = async (req, res) => {
   const {type, uid} = req.params;
 
