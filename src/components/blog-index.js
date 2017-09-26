@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import {linkResolver} from "../../common/prismic";
 import Layout from "./_layout";
 import {loadMoreContent} from "../actions/content";
+import moment from "moment";
 
 class BlogIndex extends React.Component {
   render() {
@@ -30,6 +31,7 @@ class BlogIndex extends React.Component {
                 <Link to={linkResolver(content)}>
                   {page.title && <h3>{RichText.asText(page.title)}</h3>}
                 </Link>
+                <time dateTime={content.first_publication_date}>{moment(content.first_publication_date).fromNow()}</time>
               </header>
               <div>
                 <p>{textContent.length > 150 ? `${textContent.slice(0, 140)}...` : textContent} <Link
@@ -41,7 +43,8 @@ class BlogIndex extends React.Component {
           <button className="button"
                   onClick={() => {
                     this.props.dispatch(loadMoreContent(this.props.type))
-                  }}>Load More
+                  }}>
+            {this.props.fetching ? "Loading..." : "Load More"}
           </button>
         </div>
       </div>

@@ -48,7 +48,7 @@ export const reducer = (state = defaultState, action) => {
     case contentActions.CONTENT_FETCHING: {
       return {
         ...state,
-        fetching: true,
+        fetching: action.payload.status,
       };
     }
       break;

@@ -1,11 +1,13 @@
-import Prismic from "prismic-javascript";
-import {contentLoaded} from "../src/actions/content";
-import {titleCase} from "./utils";
-
 /**
  * The formats of the content that can be returned from a getContent call.
  * @type {{LIST: string, SINGLE: string, REPEATABLE: string}}
  */
+import Prismic from "prismic-javascript";
+import {contentLoaded} from "../src/actions/content";
+import {titleCase} from "./utils";
+import {Link} from "react-router-dom";
+import * as React from "react";
+
 export const CONTENT_FORMATS = {
   LIST: 'LIST',
   SINGLE: 'SINGLE',
@@ -75,7 +77,7 @@ export const getContent = async (type, uid, page) => {
   }
   else {
     let options = getTypeOptions(type);
-    if(page){
+    if (page) {
       options.page = page;
     }
     let response = await api.query(
@@ -129,9 +131,9 @@ export const PRISMIC_SETTINGS = {
     pageSize: 25,
     orderings: [
       {
-        on: 'document',
+        on: 'document', // or 'my.<Type API ID>.<attribute>' i.e. 'my.blog.title'
         field: 'first_publication_date',
-        order: 'desc'
+        order: 'desc', // leave blank for ascending.
       }
     ],
     lang: null,
@@ -143,25 +145,56 @@ export const PRISMIC_SETTINGS = {
   },
 };
 
-const generateOrderingText = (obj, last=false) => {
+/**
+ * Generate ordering query for prismic from ordering objects.
+ * @param obj
+ * @param last
+ * @returns {string}
+ */
+const generateOrderingText = (obj, last = false) => {
   return `${obj.on}.${obj.field} ${obj.order}${last ? '' : ','}`;
 };
 
-export const getTypeOptions = (type, raw=false) => {
+/**
+ *
+ * @param type
+ * @param raw: if true, this will return the raw settings, not the formatted selection to be used with the Prismic API.
+ * @returns {*}
+ */
+export const getTypeOptions = (type, raw = false) => {
   let settings = {
     ...PRISMIC_SETTINGS.GLOBAL,
     ...(PRISMIC_SETTINGS.TYPES[type] || {})
   };
-  if(raw){
+  if (raw) {
     return settings;
   }
   const final = {
     pageSize: settings.pageSize,
-    orderings: `[${settings.orderings.map((ordering, index)=>{
-      return generateOrderingText(ordering, index+1 === settings.orderings.length);
+    orderings: `[${settings.orderings.map((ordering, index) => {
+      return generateOrderingText(ordering, index + 1 === settings.orderings.length);
     })}]`,
     lang: settings.lang,
   };
-  console.log(final);
   return final;
+};
+
+/**
+ * Replace anchor components as produced by the prismic-reactjs lib with Link components from React Router DOM.
+ * @param component
+ * @returns {*}
+ */
+export const replaceAnchorsWithLinks = (component) => {
+  const paragraphs = component.props.children;
+  paragraphs.map((paragraph) => {
+    const children = paragraph.props.children;
+    if (!!children.length) {
+      children.map((child, index) => {
+        if (child.type && child.type === 'a') {
+          children[index] = <Link to={child.props.href}>{child.props.children[0] || ''}</Link>;
+        }
+      });
+    }
+  });
+  return component;
 };

@@ -9,9 +9,12 @@ export const CONTENT_SET_PAGE = "CONTENT_SET_PAGE";
  * Set the content fetching status to true.
  * @returns {{type: string}}
  */
-export const contentFetching = () => {
+export const contentFetching = (status=true) => {
   return {
-    type: CONTENT_FETCHING
+    type: CONTENT_FETCHING,
+    payload: {
+      status
+    }
   }
 };
 
@@ -40,7 +43,6 @@ export const contentLoaded = (content, type, uid) => {
  * @returns {{type: string, payload: {type: *, page: *}}}
  */
 export const contentTypeSetPage = (type, page) => {
-  console.warn(`Setting page for ${type} to ${page}`);
   return {
     type: CONTENT_SET_PAGE,
     payload: {
@@ -61,6 +63,7 @@ export const loadMoreContent = (type) => {
     dispatch(contentFetching());
     let content = await getContent(type, null, number+1);
     if(!content || !content.length) {
+      dispatch(contentFetching(false));
       return;
     }
     dispatch(contentTypeSetPage(type, number+1));

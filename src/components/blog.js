@@ -2,6 +2,7 @@ import React from "react";
 import {RichText} from "prismic-reactjs";
 import Layout from "./_layout";
 import {Link} from "react-router-dom";
+import {linkResolver, replaceAnchorsWithLinks} from "../../common/prismic";
 
 class Blog extends React.Component {
   render() {
@@ -26,7 +27,7 @@ class Blog extends React.Component {
           </header>
           <hr/>
           <div>
-            {page.content && RichText.render(page.content)}
+            {page.content && replaceAnchorsWithLinks(RichText.render(page.content, linkResolver))}
           </div>
         </article>
       </div>

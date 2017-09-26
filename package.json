@@ -19,6 +19,7 @@
     "babel-polyfill": "^6.26.0",
     "bulma": "^0.5.2",
     "history": "^4.7.2",
+    "moment": "^2.18.1",
     "prismic-dom": "^2.0.0",
     "prismic-javascript": "^1.2.0",
     "prismic-reactjs": "^0.1.0",

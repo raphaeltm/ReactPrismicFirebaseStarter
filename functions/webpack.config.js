@@ -26,6 +26,7 @@ module.exports = {
           options: {
             presets: [
               'env',
+              'react'
             ],
             plugins: [require('babel-plugin-transform-object-rest-spread')]
           }

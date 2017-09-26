@@ -41,9 +41,12 @@ export const getFormattedContent = (state, type, uid) => {
     return getTypeByUID(state, type, uid);
   }
   else {
-    return (getTypeFormat(state, type) === CONTENT_FORMATS.REPEATABLE) ?
-      getOrderedContent(state, type) :
-      getTypeContent(state, type);
+    if(getTypeFormat(state, type) === CONTENT_FORMATS.REPEATABLE){
+      return getContentOrderedForType(state, type);
+    }
+    else {
+      return getTypeContent(state, type);
+    }
   }
 };
 
@@ -103,20 +106,36 @@ export const getOrderedContent = (state, type, filter, order) => {
   const content = getTypeContent(state, type);
   const contentArray = Object.keys(content).map((page) => content[page]);
   return contentArray.sort((pageA, pageB) => {
-    if (order === 'asc') {
-      return filter(pageA) > filter(pageB);
+    if (order === 'desc') {
+      return filter(pageA) < filter(pageB);
     }
     else {
-      return filter(pageA) < filter(pageB);
+      return filter(pageA) > filter(pageB);
     }
   });
 };
 
+/**
+ * Get content of a given type, ordered in the same manner as its Prismic ordering settings,
+ * or by the default Prismic ordering settings.
+ * @param state
+ * @param type
+ * @returns {Array.<*>}
+ */
 export const getContentOrderedForType = (state, type) => {
   const opts = getTypeOptions(type, true);
+  const firstOrder = opts.orderings[0];
   const filter = (page) => {
-    // let dataQuery =
+    const split = firstOrder.on.split('.');
+    const attr = split[split.length - 1];
+    if(split[0] === 'my'){
+      return page.data[attr];
+    }
+    else if(split[0] === 'document'){
+      return page[attr];
+    }
   };
+  return getOrderedContent(state, type, filter, firstOrder.order);
 };
 
 /**
