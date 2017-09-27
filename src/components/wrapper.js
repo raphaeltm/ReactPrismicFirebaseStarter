@@ -33,7 +33,7 @@ class Wrapper extends React.Component {
   }
 
   componentWillReceiveProps(nextProps){
-    const url = this.props.match;
+    const url = this.props.match.url;
     const nextUrl = nextProps.match.url;
     if(url !== nextUrl){
       this.prepData.bind(this)(nextProps);
