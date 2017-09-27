@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 import {linkResolver} from "../../common/prismic";
 
 class Nav extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -20,7 +20,9 @@ class Nav extends React.Component {
     const settings = this.props.settings.data;
 
     return <div id="nav-container">
-      <div id="navtrigger" className="is-hidden-tablet" onClick={()=>{this.setState({visible: true})}}>
+      <div id="navtrigger" className="is-hidden-tablet" onClick={() => {
+        this.setState({visible: true})
+      }}>
         menu
       </div>
       <div className={`section ${this.state.visible ? 'visible' : 'hidden'}`}
@@ -29,7 +31,9 @@ class Nav extends React.Component {
            }}
            id="navbar">
         <div className="columns">
-          <div className="column is-1 has-text-centered is-hidden-tablet" onClick={()=>{this.setState({visible: false})}}>
+          <div className="column is-1 has-text-centered is-hidden-tablet" onClick={() => {
+            this.setState({visible: false})
+          }}>
             <span className="nav-link">Close &times;</span>
           </div>
           <hr className="is-hidden-tablet"/>
@@ -40,9 +44,20 @@ class Nav extends React.Component {
           </div>}
           {settings.navigation.map((nav) => {
             return <div className="column is-1 has-text-centered nav-column" key={nav.link_text}>
-              <Link to={linkResolver(nav.navigation_link)} className="nav-link">
-                {nav.link_text}
-              </Link>
+              {(() => {
+                console.warn(nav.navigation_link);
+                switch (nav.navigation_link.link_type) {
+                  case 'Web':
+                  case 'Media':
+                    return <a href={nav.navigation_link.url} className="nav-link">
+                      {nav.link_text}
+                    </a>;
+                  case 'Document':
+                    return <Link to={linkResolver(nav.navigation_link)} className="nav-link">
+                      {nav.link_text}
+                    </Link>;
+                }
+              })()}
             </div>;
           })}
         </div>
