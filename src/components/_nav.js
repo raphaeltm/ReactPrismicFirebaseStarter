@@ -19,23 +19,29 @@ class Nav extends React.Component {
     }
     const settings = this.props.settings.data;
 
-    return <div>
+    return <div id="nav-container">
       <div id="navtrigger" className="is-hidden-tablet" onClick={()=>{this.setState({visible: true})}}>
         menu
       </div>
-      <div className={`section ${this.state.visible ? 'visible' : 'hidden'}`} id="navbar">
+      <div className={`section ${this.state.visible ? 'visible' : 'hidden'}`}
+           style={{
+             background: settings.brand_colour,
+           }}
+           id="navbar">
         <div className="columns">
-          <div className="column is-1 has-text-centered-mobile is-hidden-tablet" onClick={()=>{this.setState({visible: false})}}>
+          <div className="column is-1 has-text-centered is-hidden-tablet" onClick={()=>{this.setState({visible: false})}}>
             <span className="nav-link">Close &times;</span>
           </div>
           <hr className="is-hidden-tablet"/>
-          {settings.logo.url && <div className="column is-1 is-hidden-mobile">
-            <img src={settings.logo.url} alt={settings.logo.alt} id="nav-logo"/>
+          {settings.logo.url && <div className="column is-2 is-hidden-mobile" id="logo-container">
+            <Link to={'/'}>
+              <img src={settings.logo.url} alt={settings.logo.alt} id="nav-logo"/>
+            </Link>
           </div>}
           {settings.navigation.map((nav) => {
-            return <div className="column is-1 has-text-centered-mobile" key={nav.link_text}>
-              <Link to={linkResolver(nav.navigation_link)}>
-                <span className="nav-link">{nav.link_text}</span>
+            return <div className="column is-1 has-text-centered nav-column" key={nav.link_text}>
+              <Link to={linkResolver(nav.navigation_link)} className="nav-link">
+                {nav.link_text}
               </Link>
             </div>;
           })}

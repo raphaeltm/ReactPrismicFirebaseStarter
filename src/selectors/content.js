@@ -78,7 +78,7 @@ export const getTypeByUID = (state, type, uid) => {
  */
 export const getTypePage = (state, type) => {
   const root = getTypeRoot(state, type);
-  if (root.page) {
+  if (root && root.page) {
     return root.page;
   }
   else {

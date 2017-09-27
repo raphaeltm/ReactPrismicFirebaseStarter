@@ -28,8 +28,20 @@ const getComponent = (type, index) => {
 };
 
 class Wrapper extends React.Component {
-  async componentWillMount() {
-    let props = this.props;
+  componentWillMount() {
+    this.prepData.bind(this)();
+  }
+
+  componentWillReceiveProps(nextProps){
+    const url = this.props.match;
+    const nextUrl = nextProps.match.url;
+    if(url !== nextUrl){
+      this.prepData.bind(this)(nextProps);
+    }
+  }
+
+  async prepData(nextProps){
+    let props = nextProps || this.props;
 
     const params = props.match.params;
 
@@ -38,7 +50,7 @@ class Wrapper extends React.Component {
     const content = await getContent(params.type, params.uid);
 
     if (typeof content.length !== 'undefined') {
-      props.dispatch(contentTypeSetPage(params.type, this.props.page || 1));
+      props.dispatch(contentTypeSetPage(params.type, props.page || 1));
       content.map((page) => {
         props.dispatch(contentLoaded(page, page.type, page.uid));
       });

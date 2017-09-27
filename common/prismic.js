@@ -140,7 +140,7 @@ export const PRISMIC_SETTINGS = {
   },
   TYPES: {
     blog: {
-      pageSize: 2,
+      pageSize: 5,
     }
   },
 };
