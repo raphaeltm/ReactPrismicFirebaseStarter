@@ -18,7 +18,7 @@ Clone this repo and run:
 
 That will install dependencies in the root project and the functions (which are useful if you want to deploy to Firebase and have a sitemap.xml available)
 
-To setup the Prismic types that I setup for this starter, you can take a look [here](./prismic_types). Each JSON file corresponds to a different type, where the API ID for the type is the same as the filename, without the extension.
+To setup the Prismic types that I setup for this starter, you can take a look [here](./prismic_types). Each JSON file corresponds to a different type, where the API ID for the type is the same as the filename, without the extension. You'll also want to make sure that the project is pointing towards the correct Prismic repository. You can do that by modifying the [apiEndpoint here](./common/prismic.js).
 
 This starter is setup to play nice with [Firebase](https://firebase.google.com/). If you want to take advantage of that, you'll want to check out the [.firebaserc](.firebaserc) file and change the default Firebase project to the ID of your Firebase project.
 
